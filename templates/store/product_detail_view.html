@@ -1,0 +1,268 @@
+{% extends 'store/base.html'%}
+{% load static%}
+{%block title%}product detail{%endblock title%}
+{%block carousel%}{%endblock%}
+{%block content%}
+    
+    <div class="d-flex justify-content-center text-primary" id="spin">
+        <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div class="container mt-2" id="one">
+        <div class="row justify-content-center">
+            <div class="col-md-6" >
+                
+                    <div class="col-12">
+                        <div style="height: 300px;">
+                    
+                            <img src="{{prod.show_img}}" class="figure-img  rounded" alt="..." style="height: 100%; width: 100%; object-fit: contain" id='main_img'>
+                                <!-- <figcaption class="figure-caption">A caption for the above image.</figcaption> -->
+                              
+                        </div>
+                          <div class="col-12 card">
+                              <div id="error_msg">
+                                
+                              </div>
+                            {%if prod.id in cart_keys%}
+                               <!-- <a href="{% url 'cart:cartDetail'%}" role="button" onclick="goToCart('{{p.product.id}}')" class="btn btn-warning"><button onclick="goToCart('{{p.product.id}}')" class="btn btn-warning" >Go To Cart</button></a> -->
+                               <a href="{% url 'cart:cartDetail'%}" role="button" onclick="goToCart('{{p.product.id}}')" class="btn btn-warning">Go To Cart</a>
+                                {%else%}
+                                    
+                                    <button class="btn btn-primary" data-pid="{{p.product.id}}" id="add_to_cart" onclick="addToCart(this,'{{prod.id}}','{{prod.discount_price}}','{{prod.title}}')">Add To Cart</button>
+        
+                            {%endif%}
+                        </div>
+                    </div>
+                    
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="text-info">{{prod.title}}</h2>
+                        {{prod.description | safe}}
+
+                    </div>
+                    <hr/>
+                    <div class="col-12">
+                        <form action="" id="form">
+                        {%for option in prod.productvariationsoptions_set.all%}
+                            <h2 class="d-inline p-3">
+                                {{option.name | title}}: 
+                            </h2>
+                            <h4 class="d-inline p-3">
+                                {%for v in option.productvariationvalue_set.all%}
+                                {%if option.name|title == 'Color'%}
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="{{option.name | title}}" id="{{v.product_variation_value | title}}" value="{{v.product_variation_value | title}}">
+                                        <label class="form-check-label" for="{{v.product_variation_value | title}}">
+                                            {{v.product_variation_value | title}}
+                                            {%for img in prod.product_image.all%}
+                                                {%if img.color == v.product_variation_value|title%}
+                                                    <figure class="figure">
+                                                        <img src="{{img.image.url}}" onclick="showImg(this)" class="figure-img img-fluid rounded d-inline" alt="..." style="height:40px; width:100%; object-fit:cover">
+                                                        <figcaption class="figure-caption text-end"></figcaption>
+                                                    </figure>
+
+                                                {%endif%}
+                                                     
+                                            {%endfor%}
+                                            
+                                        </label>
+                                    </div>
+
+                                    {%else%}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="{{option.name | title}}" id="{{v.product_variation_value | title}}" value="{{v.product_variation_value | title}}">
+                                            <label class="form-check-label" for="{{v.product_variation_value | title}}">{{v.product_variation_value | title}}</label>
+                                        </div>
+
+                                {%endif%}
+                                
+                                 {%endfor%}
+                                
+                              
+                            </h4>
+                            <hr/>
+                            <br/>
+                        {%endfor%}
+                        </form>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+    <div class="container" id="two">
+        
+        <div class="row  justify-content-center mt-5">
+            <div class="col-12">
+                <h1 class="text-info text-center"> Image gallery </h1>
+            </div>
+            <div class="col-8">
+                <!-- <figure class="figure">
+                    <img src="{{img.image.url}}" class="figure-img img-fluid rounded" alt="...">
+                    <figcaption class="figure-caption text-end">A caption for the above image.</figcaption>
+                </figure> -->
+                <div class="owl-carousel owl-theme" >
+                    {% for img in prod.product_image.all%}
+                        <div class="item"><img src="{{img.image.url}}" style='height: 350px; width: 100%; object-fit: contain'  class="figure-img img-fluid rounded" alt="..."></div>
+                    {%endfor%}
+                </div>
+            </div>
+           
+        </div>
+        
+    </div>
+
+    {%block owl_carousel%}
+   
+  
+    {%endblock%}
+    
+
+    <!-- <script src="{%static 'js/product_detail.js'%}"></script> -->
+    <script>
+        let i = 0;
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+              const cookies = document.cookie.split(";");
+              for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === name + "=") {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+                }
+              }
+            }
+            return cookieValue;
+          }
+    
+          const csrftoken = getCookie("csrftoken");
+          function addToCart(obj, id, price, title) {
+            
+            function jQFormSerializeArrToJson(formSerializeArr){
+                var jsonObj = {};
+                jQuery.map( formSerializeArr, function( n, i ) {
+                    jsonObj[n.name] = n.value;
+                });
+               
+                return jsonObj;
+               }
+                obj = $("#form").serializeArray()
+                
+                let extra_info = jQFormSerializeArrToJson($("#form").serializeArray())
+                //console.log('add to cart clicked')
+                ////console.log(jQFormSerializeArrToJson(obj))
+                ////console.log(obj.length)
+                ////console.log(obj.length)
+                //console.log(extra_info)
+            if(obj.length == '{{length}}'){
+              $.ajax({
+                method: 'post',
+                url: "http://127.0.0.1:8000/cart/add-to-cart/",
+                cache:false,
+                data: {
+                  id: id, title: title, price: price, quantity: 1,extra_info:JSON.stringify(extra_info),
+                  csrfmiddlewaretoken: csrftoken
+                },
+                success: (response) => {
+                  obj = $('#add_to_cart').html('Go To Cart')
+                  obj.attr('class', 'btn btn-warning')
+                  obj.attr('onclick', `goToCart(${id})`)
+                  ////console.log('{{cart_session.show_quantity}}')
+                  $('#cart-quan').html(response.length)
+            
+            
+            
+                  ////console.log(response)
+                }
+              });
+          
+            }
+            else{
+               
+               if (i == 0){
+                element = document.createElement('div')
+                str = document.createElement('strong')
+
+                str.innerText = 'please select the variation you want below description'
+                element.appendChild(str)
+                document.getElementById("error_msg").appendChild(element) 
+                element.className = 'alert alert-danger'
+                i++;
+               }
+                //$('.error_msg').appendChild(element)
+              //Salert('cannot add to cart')
+            }
+           
+          
+          }
+          function goToCart(id) {
+            ////console.log('go to cart clicked')
+            //obj.getAttribute('data-pid')
+            window.location.href = "http://127.0.0.1:8000/cart/cart-detail/"
+          }
+          
+          $("#one").attr('class','d-none container mt-2');
+          
+          
+          $(window).on("load", function () {
+            
+            $("#spin").remove();
+            $("#one").attr('class','container mt-2');
+            
+              $('.owl-carousel').owlCarousel({
+                  loop:true,
+                  margin:10,
+                  nav:true,
+                  dots:true,
+                  autoHeight:true,
+                  autoplay: true,
+                  autoplayTimeout: 3000,
+                  responsive:{
+                      0:{
+                          items:1
+                      },
+                      600:{
+                          items:1
+                      },
+                      1000:{
+                          items:1
+                      }
+                  }
+              })
+          });
+    </script>
+    <script>
+        function imgClicked(){
+            
+            //console.log('img clicked')
+            ////console.log($("#form").serializeArray());
+            function jQFormSerializeArrToJson(formSerializeArr){
+                var jsonObj = {};
+                jQuery.map( formSerializeArr, function( n, i ) {
+                    jsonObj[n.name] = n.value;
+                });
+               
+                return jsonObj;
+               }
+            alert('hello')
+            let x = jQFormSerializeArrToJson($("#form").serializeArray())
+            //console.log(Object.keys(x).length)
+            //console.log(x)
+        }
+
+        function showImg(obj){
+            
+            //console.log(obj.src)
+            $('#main_img').attr('src',obj.src)
+        }
+    </script>
+    
+{%endblock content%}

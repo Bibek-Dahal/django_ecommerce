@@ -1,0 +1,61 @@
+from django.http.response import HttpResponse, JsonResponse,HttpResponseRedirect
+from django.shortcuts import redirect, render,get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
+from .models import Catagory, Product, Product_image, ProductInventory, ProductVariationsOptions, SubCatagory
+from django.views.generic.base import TemplateView, View
+from django.views.generic.edit import CreateView
+import json
+from django.core.mail import send_mail
+from cart.cart import Cart
+from django.core.paginator import Paginator
+
+def Home(request):
+    
+    query_set = {}
+    catagories = Catagory.objects.all()
+    for c in catagories:
+        if c.cat_prods():
+            query_set[c] = c.cat_prods()[:min(len(c.cat_prods()),5)]
+   
+    x=ProductInventory.objects.filter(sku = '12888blacknoteredmi')
+    
+    return render(request,"store/home.html",{'query_set':query_set})
+    
+     
+
+class ProductDetailView(TemplateView):
+    template_name = 'store/product_detail_view.html'
+
+    def get_context_data(self,*args,**kwargs):
+        context = super().get_context_data(**kwargs)
+        slug = self.kwargs['slug']
+        context['prod'] = get_object_or_404(Product,slug=slug)
+        context['length'] = len(context['prod'].productvariationsoptions_set.all())
+        if self.request.session.get('cart'):
+            context['cart_keys'] = [ int(x) for x in self.request.session.get('cart').keys()]
+        return context
+
+class CatagoryView(View):
+    template_name = 'store/catagory.html'
+    
+    def get(self,request,*args,**kwargs):
+        
+        cat_name = get_object_or_404(Catagory,slug=kwargs['slug'])
+
+        paginator = Paginator(cat_name.cat_prods().order_by('id'),20)
+        page_obj = paginator.get_page(request.GET.get('page'))
+        
+        
+        return render(request,'store/catagory.html',{'page_obj':page_obj,'subcatagory':cat_name.subcatagory_set.all()})
+        
+class ProductListView(View):
+    def get(self,request,*args,**kwargs):
+        #(kwargs)
+        sub_cat = get_object_or_404(SubCatagory,slug=kwargs['slug'])
+        #(sub_cat)
+        #(sub_cat.sub_cat_prods())
+        paginator = Paginator(sub_cat.sub_cat_prods().order_by('id'),20)
+        page_obj = paginator.get_page(request.GET.get('page'))
+        return render(request,'store/product_list_view.html',{'page_obj':page_obj})
+

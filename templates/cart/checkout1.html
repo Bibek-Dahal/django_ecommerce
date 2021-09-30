@@ -1,0 +1,244 @@
+{%extends 'store/base.html'%}
+{%load static%} {% block title%} cart detail{%endblock title%}
+
+{%block content%} 
+    
+    
+    <!-- <form action="{% url 'cart:order'%}" method="post" >
+        {%csrf_token%}
+        <input type="text" hidden name="name" value="bibek" >
+        <input type="password" name="password" hidden value="122333">
+    </form>
+     -->
+     <div class="d-flex justify-content-center d-none text-primary" id="spin" >
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    
+    
+    
+    <div class="container">
+        <div class="row  justify-content-center p-5">
+            <div class="col-lg-6 col-sm-12 card shadow mb-5 ">
+                <div class="row">
+                    <div class="col">
+                        <h5>Please Select The Shiipng Address</h5>
+                    </div>
+                </div>
+               <div class="row">
+                    <form action="{% url 'cart:order'%}" method="post" id='payment_form' >
+                            {%csrf_token%}
+                            <input type="text" name="order" value="{{uuid}}" hidden>
+                            {% for c in customers%}
+                            <div class="form-check">
+                                {%if c.id == customers.0.id%}
+                                    <input class="form-check-input" type="radio" value = {{c.id}} name="id" id="{{c.id}}" checked >
+                                    {%else%}
+                                        <input class="form-check-input" value = {{c.id}} type="radio" name="id" id="{{c.id}}">
+                                {%endif%}
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                <h5>{{forloop.counter}}</h5>
+                                </label>
+                                <div class="row shadow-lg mt-2 mb-2 ">
+                                    <div class="col-10 ">
+                                    <h5>Name:  {{c.full_name}}</h5>
+                                    </div>
+                                    <div class="row mt-2 mb-2">
+                                        <div class="col-10">
+                                            <h5>Shipping Address: {{c.shipping_address}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {%endfor%}
+                    </form>
+               </div>
+               
+   
+                
+                <button id="payment-button" class = "btn btn-danger shadow mt-3">Pay with Khalti</button>
+                <!-- <button id="esewa-payment-button" class = "btn btn-danger shadow mt-3">Pay with esews</button> -->
+                <body>
+                    <form action="https://uat.esewa.com.np/epay/main" method="POST">
+                    <input value="100" name="tAmt" type="hidden">
+                    <input value="90" name="amt" type="hidden">
+                    <input value="5" name="txAmt" type="hidden">
+                    <input value="2" name="psc" type="hidden">
+                    <input value="3" name="pdc" type="hidden">
+                    <input value="EPAYTEST" name="scd" type="hidden">
+                    <input value="{{uuid}}" name="pid" type="hidden" >
+                    <input value='http://127.0.0.1:8000/cart/v-esewa/?cid={{customers.0.id}}' type="hidden" name="su" class="su">
+                    <input value="http://merchant.com.np/page/esewa_payment_failed?q=fu" type="hidden" name="fu">
+                    <input value="Pay With esewa" type="submit" id="esewa-payment-button" class="btn btn-danger shadow mt-3" >
+                    </form>
+                </body>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="col" id="cart_detail">
+                        <div class="d-sm-flex flex-wrap card shadow">
+                            <div>
+                                <h1>Order Summary</h1>
+                                <hr/>
+                            </div>
+                            <div class="d-sm-flex justify-content-between">
+                                <div><h4 id="price">Price({{cart_session.show_quantity}} items)</h4></div>
+                                <div><h4 id="s_total">Rs.{{cart_session.subTotal | floatformat:"2"}}</h4></div>
+                            </div>
+                            <div class="d-sm-flex justify-content-between">
+                                <div><h4>Delivary Charge</h4></div>
+                                <div><h4 id="shipping_charge">Rs.{{cart_session.showShippingCharge | floatformat:"2"}}</h4></div>
+                
+                            </div>
+                            <hr>
+                            <div class="d-sm-flex justify-content-between">
+                                <div><h4>Total Charge</h4></div>
+                                <div><h4 id="total_charge">Rs.{{cart_session.total | floatformat:"2"}}</h4></div>
+                            </div>
+                            
+                            <!-- <div class="d-flex justify-content-center">
+                              <a href="{% url 'cart:buy'%}"><button class="btn btn-danger">Place Order</button></a>
+                            </div> -->  
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+    <script>
+        /*let hello*/
+               
+        console.log($('#u').val())
+        let uuid = $('#u').val();
+        function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+            }
+        }
+        return cookieValue;
+        }
+        const csrftoken = getCookie("csrftoken");
+        var config = {
+        //replace the publicKey with yours
+        publicKey: "test_public_key_2cb744b91026476980e513bd0c377ef2",
+        productIdentity: '{{uuid}}',
+        productName: "Dragon",
+        productUrl: "http://gameofthrones.wikia.com/wiki/Dragons",
+        paymentPreference: [
+            "KHALTI",
+            "EBANKING",
+            "MOBILE_BANKING",
+            "CONNECT_IPS",
+            "SCT",
+        ],
+        eventHandler: {
+            
+            onSuccess(payload) {
+            // hit merchant api for initiating verfication
+            // console.log(JSON.stringify(payload));
+            console.log(payload.token)
+            $(".container").addClass("d-none");
+            $("#spin").attr("class", "d-flex justify-content-center");
+            $.ajax({
+                type:'post',
+                url:'http://127.0.0.1:8000/cart/verify/',
+                data:{token:payload.token,amount:payload.amount,csrfmiddlewaretoken: csrftoken},
+                success:(response)=>{
+                    console.log(response)
+                    console.log(response.msg)
+                    if(response.msg == "success"){
+                        console.log('hello')
+                        $('#payment_form').submit();
+                    }
+                    else{
+                        window.location.href = 'http://127.0.0.1:8000/cart/transaction-failed'
+                    }
+                    
+                },
+                error:(error)=>{
+                    console.log(error)
+
+                }
+            });
+            
+
+            },
+            onError(error) {
+            console.log(error);
+            },
+            onClose() {
+            console.log("widget is closing");
+            },
+        },
+        };
+
+        // var config = {
+        //   // replace the publicKey with yours
+        //   "publicKey": "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
+        //   "productIdentity": "1234567890",
+        //   "productName": "Dragon",
+        //   "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
+        //   "paymentPreference": [
+        //       "KHALTI",
+        //       "EBANKING",
+        //       "MOBILE_BANKING",
+        //       "CONNECT_IPS",
+        //       "SCT",
+        //       ],
+        //   "eventHandler": {
+        //       onSuccess (payload) {
+        //           // hit merchant api for initiating verfication
+        //           console.log(payload);
+        //       },
+        //       onError (error) {
+        //           console.log(error);
+        //       },
+        //       onClose () {
+        //           console.log('widget is closing');
+        //       }
+        //   }
+        // };
+        var checkout = new KhaltiCheckout(config);
+        var btn = document.getElementById("payment-button");
+        btn.onclick = function () {
+        // minimum transaction amount must be 10, i.e 1000 in paisa.
+        if ("{{request.user}}" === "AnonymousUser") {
+            window.location.href = "{% url 'account:signup'%}";
+        } else {
+            checkout.show({ amount: 1000 });
+        }
+        };
+
+        // const request = new Request("http://127.0.0.1:8000/cart/verify/", {
+        //   headers: { "X-CSRFToken": csrftoken },
+        // });
+        // //   fetch(request, {
+        // //     method: "POST",
+        // //     mode: "same-origin", // Do not send CSRF token to another domain.
+        // //     data: {token:payload.token,amount:payload.amount} ,
+        // //   })
+        // //     .then(function (response) {
+        // //         console.log(response.msg)
+        // //         // $("#payment_form").submit();
+            
+        // //     })
+        // //     .catch((error) => {
+        // //       console.log(error);
+        // //     });
+        // // },
+            
+    </script>
+    <script src="{%static 'js/checkout.js'%}"></script>
+    
+{%endblock%}
