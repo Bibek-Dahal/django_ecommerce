@@ -84,13 +84,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ.get('NAME',True),
-        'USER': 'dpwyhbkgmdljkn',
-        'PASSWORD':'fa9cbe532df8c6d43b80fe20abf592d255dc6649e82e37d074d745e0947f4036',
-        'HOST': 'ec2-44-199-83-229.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'USER': os.environ.get('USER',True),
+        'PASSWORD':os.environ.get('PASSWORD',True),
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
-
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
