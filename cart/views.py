@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.views.generic.base import TemplateView, View
 import json
-
+from django.conf import settings
 from store.models import Product_image
 from .cart import Cart
 from store.models import Product, Customer
@@ -16,6 +16,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 import uuid
 x = 0
+
 
 class FailuereOrderView(View):
     def get(self,request):
@@ -105,7 +106,7 @@ class VerifyKhalthiView(View):
             "amount": amount
         }
         headers = {
-            "Authorization": "Key test_secret_key_b9ca176c98c84c3abc37b9a5ad2bd401"
+            "Authorization": settings.KHALTHI_SECRET_KEY
         }
 
         response = requests.post(url, payload, headers=headers)
@@ -163,7 +164,7 @@ class VerifyEsewa(View):
         url ="https://uat.esewa.com.np/epay/transrec"
         d = {
             'amt': 100,
-            'scd': 'EPAYTEST',
+            'scd': settings.ESEWA_SECRET_KEY,
             'rid': request.GET.get('refId'),
             'pid':request.GET.get('oid'),
         }

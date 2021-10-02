@@ -54,7 +54,7 @@
       </div>
       <div class="owl-carousel owl-theme p-1 card">
         {%for p in value%}
-        <a href="{{p.get_absolute_url}}" class="text-decoration-none">
+        <a href="{{p.get_absolute_url}}" target="_blank" class="text-decoration-none">
           <div class="item">
           
             <div>
@@ -73,13 +73,29 @@
     
   </div>
   <script>
+    function handleSearch(){
+      console.log('handle click ')
+      let len = $('#sm0').val()
+      if(len !=0){
+        $('#form012').submit()
+      } 
+    }
+    function handleSearch1(){
+      console.log('handle click 1')
+      let len = $('#sm').val()
+      if(len !=0){
+        $('#form0123').submit()
+      } 
+    }
+  </script>
+  <script>
     $('.owl-carousel').owlCarousel({
       loop:true,
       margin:10,
       responsiveClass:true,
       responsive:{
           0:{
-              items:1,
+              items:2,
               nav:true,
               autoplay:true
           },

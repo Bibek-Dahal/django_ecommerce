@@ -14,12 +14,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =config('SECRET_KEY')
-
+SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
 
 
 # Application definition
@@ -47,12 +44,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -84,10 +83,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'e_commerce',
-        'USER': config('USER'),
-        'PASSWORD': config('PASSWORD'),
-        'HOST': 'localhost',
+        'NAME': os.environ['NAME'],
+        'USER': os.environ['USER'],
+        'PASSWORD':os.environ['PASSWORD'],
+        'HOST': 'bibekecom.herokuapp.com',
         'PORT': '3306',
     }
 }
@@ -150,25 +149,30 @@ EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 LOGIN_REDIRECT_URL = 'store:home'
 LOGOUT_REDIRECT_URL = 'store:home'
-ALLOWED_HOSTS = ['*']
+
+ALLOWED_HOSTS = ['bibekecom.herokuapp.com','127.0.0.1']
 
 cloudinary.config( 
-  cloud_name = config('cloud_name'), 
-  api_key = config('api_key'), 
-  api_secret = config('api_secret')
+  cloud_name = os.environ['cloud_name'], 
+  api_key = os.environ['api_key'], 
+  api_secret =  os.environ['api_secret']
 )
+
+KHALTHI_SECRET_KEY = os.environ['KHALTHI_SECRET_KEY']
+ESEWA_SECRET_KEY = os.environ['ESEWA_SECRET_KEY']
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = '/static/'
-STATICFILES_DIRS =[
-os.path.join(BASE_DIR, 'static')
-]
+# STATICFILES_DIRS =[
+# os.path.join(BASE_DIR, 'static')
+# ]
 
-STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT  = BASE_DIR / 'static'
 
 # MEDIA_URL  = '/dk7xo8rng/'
 
@@ -178,5 +182,4 @@ STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-from django.urls import reverse_lazy
-# LOGIN_URL = reverse_lazy('account:signin')
+

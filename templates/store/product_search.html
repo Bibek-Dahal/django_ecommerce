@@ -1,6 +1,6 @@
 {% extends 'store/base.html'%}
 {% load static %} 
-{%block title%}catagory{%endblock title%}
+{%block title%}products{%endblock title%}
 {% block content%}
 
 
@@ -14,21 +14,26 @@
 </div>
 <div class="container">
   <h1>{{catagory.name}}</h1>
- {%if subcatagory%}
-  <div class="dropdown p-2">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      SubCatagories
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      {%for c in subcatagory%}
-        <li><a class="dropdown-item" href="{{c.get_absolute_url}}">{{c.name}}</a></li>
-      {%endfor%}
-      
-    </ul>
-  </div>
- {%endif%}
+ 
 </div>
+{%if page_obj%}
 <div class="container">
+    <h3 class="my-4 border-bottom pb-1"><span class="text-muted">Search result for </span>{{request.GET.search}}</h3>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-2">
+            <h3>Sort By:</h3>
+          </div>
+          <div class="col-md-3">
+            <a href="?search={{request.GET.search}}&page={{page_obj.number}}&price=Low-to-High" role="button" class=" text-decoration-none">price--Low-to-High</a>
+          </div>
+          <div class="col-md-3">
+            <a href="?search={{request.GET.search}}&page={{page_obj.number}}&price=High-to-Low" role="button" class=" text-decoration-none">price--High-to-Low</a>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row justify-content-evenly">
       {% for product in page_obj%}
           <div class="card p-0 shadow-lg col-lg-2 col-md-2 col-sm-5 col-8-justify-content-center my-2 mt-2 mb-2" style="height: 350px; width:200px; background-color:white;">
@@ -38,10 +43,9 @@
             <hr/>
             <div class="row ">
               <div class="col-12">
-
                 <div class="row justify-content-center">
                   <div class="col-12 text-center">
-                    <a href="{%url 'store:product_detail' product.slug %}"><h3>{{product.title | slice:"20"}}...</h3></a>
+                    <a href="{%url 'store:product_detail' product.slug %}" target="_blank"><h3>{{product.title | slice:"20"}}...</h3></a>
                     <h3><small>Rs</small>{{product.discount_price | floatformat:"0"}}</h3>
                     
                   </div>
@@ -57,12 +61,12 @@
       <ul class="pagination justify-content-center">
         
         {%if page_obj.has_previous%}
- 
+
           <li class="page-item">
             <a class="page-link" href="?page={{page_obj.previous_page_number}}">Previous</a>
           </li>
           {%else%}
-          
+
             <li class="page-item disabled">
               <a class="page-link" href="">Previous</a>
             </li>
@@ -85,6 +89,7 @@
       </ul>
     </nav>
 </div>
+{%endif%}
 <script src="{%static 'js/catagory.js'%}"></script>
   
 {% endblock content%}

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
@@ -9,7 +9,6 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <!-- Bootstrap CSS -->
     {%load static%}
     <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -30,7 +29,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="{%url 'store:home'%}">Navbar</a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item offs">
             <a href="{% url 'cart:cartDetail'%}" class="nav-link ">
@@ -62,8 +61,8 @@
                 
                 {% for catagory in catagories%}
                   <li>
-                    <!-- <div type="button" class="dropdown-item btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="Right popover">{{catagory.name}}</div> -->
-                    <a class="dropdown-item" href="{{catagory.get_absolute_url}}">{{catagory.name}}</a>
+                   
+                    <a class="dropdown-item" href="{{catagory.get_absolute_url}}">{{catagory.name|title}}</a>
                     
                   </li>
                 {% endfor%}
@@ -90,12 +89,12 @@
          
           </ul>
           
-          <form class="d-flex mb-2 nav-item mx-3">
+          <form class="d-flex mb-2 nav-item mx-3 d-none d-lg-block" id="form012"  action="{%url 'store:search'%}">
             <div class="input-group">
               
-              <input type="text" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="basic-addon1">
+              <input type="text" name="search" id="sm0" class="form-control" placeholder="search for products" aria-label="Input group example" aria-describedby="basic-addon1">
               <span class="input-group-text" id="basic-addon1" >
-                <a href="#">
+                <a role="button" onclick="handleSearch()">
                   <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                   </svg>
@@ -113,46 +112,54 @@
           </div>
         </div>
       </div>
+      
+    </nav>
+    <nav class="bd-subnavbar py-2 d-block d-lg-none" aria-label="Secondary navigation">
+      <div class="container-xxl d-flex justify-content-center">
+        <div>
+          <form class="d-flex mb-2 nav-item mx-3" id="form0123" action="{%url 'store:search'%}">
+            <div class="input-group">
+              
+              <input type="text" name="search" id="sm" class="form-control" placeholder="search for products" aria-label="Input group example" aria-describedby="basic-addon1">
+              <span class="input-group-text" id="basic-addon1" >
+                <a role="button" onclick="handleSearch1()">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                  </svg>
+                </a>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
     </nav>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     {% endblock navbar%}
-    <script>
-      $(document).ready(function(){
-        $('[data-toggle="popover"]').popover();
-      });
-      </script>
-    
-    
     {%block message%}{%endblock message%}
     {% block carousel%}{%endblock carousel%}
-    
-    <!-- <div style="height: 100px; border:1px solid red;">
-      <img src="{%static 'images/women.jpg'%}"  alt="..."  style="width: 100%; object-fit:cover;">
-    </div> -->
 
     {% block content%}{% endblock content%}
     {%block owl_carousel%}{%endblock%}
     
     {%block token%}{%csrf_token%}{%endblock%}
+    
     {%block footer%}
-      <!-- Footer -->
+     
     
                   
         <footer class="text-center text-lg-start bg-white text-muted" id='footer'>
-          <!-- Section: Social media -->
+   
           <section
             class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
           >
-            <!-- Left -->
+           
             <div class="me-5 d-none d-lg-block">
               <span>Get connected with us on social networks:</span>
             </div>
-            <!-- Left -->
-
-            <!-- Right -->
+  
             <div>
-              <a href="" class='me-4 text-reset btn btn-link btn-floating btn-lg text-dark m-1 role="button"'>
+              <a href="https://www.facebook.com/bibek.dahal.712" target="_blank" class='me-4 text-reset btn btn-link btn-floating btn-lg text-dark m-1 role="button"'>
                 <i class="fab fa-facebook"></i>
               
               <a href="" class='me-4 text-reset btn btn-link btn-floating btn-lg text-dark m-1 role="button"'>
@@ -171,18 +178,16 @@
                 <i class="fab fa-github"></i>
               </a>
             </div>
-            <!-- Right -->
+           
           </section>
-          <!-- Section: Social media -->
-
-          <!-- Section: Links  -->
+ 
           <section class="">
             <div class="container text-center text-md-start mt-5">
-              <!-- Grid row -->
+          
               <div class="row mt-3">
-                <!-- Grid column -->
+           
                 <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                  <!-- Content -->
+               
                   <h6 class="text-uppercase fw-bold mb-4">
                     <i class="fas fa-gem me-3"></i>Company name
                   </h6>
@@ -191,16 +196,14 @@
                     dolor sit amet, consectetur adipisicing elit.
                   </p>
                 </div>
-                <!-- Grid column -->
 
-                <!-- Grid column -->
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                  <!-- Links -->
+
                   <h6 class="text-uppercase fw-bold mb-4">
                     Products
                   </h6>
                   <p>
-                    <a href="#!" role="button"  class="text-reset text-decoration-none">Angular</a>
+                    <a href="#!" role="button"  class="text-reset text-decoration-none">Wordpress</a>
                   </p>
                   <p>
                     <a href="#!" class="text-reset text-decoration-none">React</a>
@@ -212,11 +215,8 @@
                     <a href="#!" class="text-reset text-decoration-none">Laravel</a>
                   </p>
                 </div>
-                <!-- Grid column -->
 
-                <!-- Grid column -->
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                  <!-- Links -->
                   <h6 class="text-uppercase fw-bold mb-4">
                     Useful links
                   </h6>
@@ -233,53 +233,40 @@
                     <a href="#!" class="text-reset text-decoration-none">Help</a>
                   </p>
                 </div>
-                <!-- Grid column -->
-
-                <!-- Grid column -->
+  
                 <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                  <!-- Links -->
+         
                   <h6 class="text-uppercase fw-bold mb-4">
                     Contact
                   </h6>
                   <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
                   <p>
                     <i class="fas fa-envelope me-3"></i>
-                    info@example.com
+                    bibekdahal479@example.com
                   </p>
                   <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
                   <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
                 </div>
-                <!-- Grid column -->
+                
               </div>
-              <!-- Grid row -->
+            
             </div>
           </section>
-          <!-- Section: Links  -->
+ 
 
-          <!-- Copyright -->
+
           <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
             © 2021 Copyright
-            <!-- <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a> -->
+            
           </div>
-          <!-- Copyright -->
+
         </footer>
-        <!-- Footer -->
+ 
     
     {%endblock footer%}
 
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    -->
-    <!-- <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
-          </a> -->
+  
   </body>
 </html>

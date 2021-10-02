@@ -2,14 +2,7 @@
 {%load static%} {% block title%} cart detail{%endblock title%}
 
 {%block content%} 
-    
-    
-    <!-- <form action="{% url 'cart:order'%}" method="post" >
-        {%csrf_token%}
-        <input type="text" hidden name="name" value="bibek" >
-        <input type="password" name="password" hidden value="122333">
-    </form>
-     -->
+ 
      <div class="d-flex justify-content-center d-none text-primary" id="spin" >
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -58,7 +51,7 @@
    
                 
                 <button id="payment-button" class = "btn btn-danger shadow mt-3">Pay with Khalti</button>
-                <!-- <button id="esewa-payment-button" class = "btn btn-danger shadow mt-3">Pay with esews</button> -->
+                
                 <body>
                     <form action="https://uat.esewa.com.np/epay/main" method="POST">
                     <input value="100" name="tAmt" type="hidden">

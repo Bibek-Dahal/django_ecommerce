@@ -51,7 +51,7 @@
    
                 
                 <button id="payment-button" class = "btn btn-danger shadow mt-3">Pay with Khalti</button>
-                <!-- <button id="esewa-payment-button" class = "btn btn-danger shadow mt-3">Pay with esews</button> -->
+                
                 <body>
                     <form action="https://uat.esewa.com.np/epay/main" method="POST">
                     <input value="100" name="tAmt" type="hidden">
@@ -61,9 +61,12 @@
                     <input value="3" name="pdc" type="hidden">
                     <input value="EPAYTEST" name="scd" type="hidden">
                     <input value="{{uuid}}" name="pid" type="hidden" >
-                    <input value='http://127.0.0.1:8000/cart/v-esewa/?cid={{customers.0.id}}' type="hidden" name="su" class="su">
+                    <input value='/cart/v-esewa/?cid={{customers.0.id}}' type="hidden" name="su" class="su">
                     <input value="http://merchant.com.np/page/esewa_payment_failed?q=fu" type="hidden" name="fu">
-                    <input value="Pay With esewa" type="submit" id="esewa-payment-button" class="btn btn-danger shadow mt-3" >
+                    <div class="d-grid gap-2"> 
+                        <input value="Pay With esewa" type="submit" id="esewa-payment-button" class="btn btn-danger shadow mt-3" > 
+                    </div>
+                    <!-- <input value="Pay With esewa" type="submit" id="esewa-payment-button" class="btn btn-danger shadow mt-3" > -->
                     </form>
                 </body>
             </div>
@@ -89,10 +92,7 @@
                                 <div><h4>Total Charge</h4></div>
                                 <div><h4 id="total_charge">Rs.{{cart_session.total | floatformat:"2"}}</h4></div>
                             </div>
-                            
-                            <!-- <div class="d-flex justify-content-center">
-                              <a href="{% url 'cart:buy'%}"><button class="btn btn-danger">Place Order</button></a>
-                            </div> -->  
+
                         </div>
                     </div>
                 </div>
@@ -102,135 +102,7 @@
 
     </div>
     <script>
-        /*let hello*/
-               
-        ///.log($('#u').val())
-        let uuid = $('#u').val();
-        function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== "") {
-            const cookies = document.cookie.split(";");
-            for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === name + "=") {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-            }
-        }
-        return cookieValue;
-        }
-        const csrftoken = getCookie("csrftoken");
-        var config = {
-        //replace the publicKey with yours
-        publicKey: "test_public_key_2cb744b91026476980e513bd0c377ef2",
-        productIdentity: '{{uuid}}',
-        productName: "Dragon",
-        productUrl: "http://gameofthrones.wikia.com/wiki/Dragons",
-        paymentPreference: [
-            "KHALTI",
-            "EBANKING",
-            "MOBILE_BANKING",
-            "CONNECT_IPS",
-            "SCT",
-        ],
-        eventHandler: {
-            
-            onSuccess(payload) {
-            // hit merchant api for initiating verfication
-            // ///.log(JSON.stringify(payload));
-            ///.log(payload.token)
-            $(".container").addClass("d-none");
-            $("#spin").attr("class", "d-flex justify-content-center");
-            $.ajax({
-                type:'post',
-                url:'http://127.0.0.1:8000/cart/verify/',
-                data:{token:payload.token,amount:payload.amount,csrfmiddlewaretoken: csrftoken},
-                success:(response)=>{
-                    ///.log(response)
-                    ///.log(response.msg)
-                    if(response.msg == "success"){
-                        ///.log('hello')
-                        $('#payment_form').submit();
-                    }
-                    else{
-                        window.location.href = 'http://127.0.0.1:8000/cart/transaction-failed'
-                    }
-                    
-                },
-                error:(error)=>{
-                    ///.log(error)
-
-                }
-            });
-            
-
-            },
-            onError(error) {
-            ///.log(error);
-            },
-            onClose() {
-            ///.log("widget is closing");
-            },
-        },
-        };
-
-        // var config = {
-        //   // replace the publicKey with yours
-        //   "publicKey": "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
-        //   "productIdentity": "1234567890",
-        //   "productName": "Dragon",
-        //   "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
-        //   "paymentPreference": [
-        //       "KHALTI",
-        //       "EBANKING",
-        //       "MOBILE_BANKING",
-        //       "CONNECT_IPS",
-        //       "SCT",
-        //       ],
-        //   "eventHandler": {
-        //       onSuccess (payload) {
-        //           // hit merchant api for initiating verfication
-        //           ///.log(payload);
-        //       },
-        //       onError (error) {
-        //           ///.log(error);
-        //       },
-        //       onClose () {
-        //           ///.log('widget is closing');
-        //       }
-        //   }
-        // };
-        var checkout = new KhaltiCheckout(config);
-        var btn = document.getElementById("payment-button");
-        btn.onclick = function () {
-        // minimum transaction amount must be 10, i.e 1000 in paisa.
-        if ("{{request.user}}" === "AnonymousUser") {
-            window.location.href = "{% url 'account:signup'%}";
-        } else {
-            checkout.show({ amount: 1000 });
-        }
-        };
-
-        // const request = new Request("http://127.0.0.1:8000/cart/verify/", {
-        //   headers: { "X-CSRFToken": csrftoken },
-        // });
-        // //   fetch(request, {
-        // //     method: "POST",
-        // //     mode: "same-origin", // Do not send CSRF token to another domain.
-        // //     data: {token:payload.token,amount:payload.amount} ,
-        // //   })
-        // //     .then(function (response) {
-        // //         ///.log(response.msg)
-        // //         // $("#payment_form").submit();
-            
-        // //     })
-        // //     .catch((error) => {
-        // //       ///.log(error);
-        // //     });
-        // // },
-            
+       
     </script>
     <script src="{%static 'js/checkout.js'%}"></script>
     

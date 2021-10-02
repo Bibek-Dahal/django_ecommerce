@@ -19,7 +19,7 @@ function addToCart(id, price, title) {
   ////console.log("add_to_cart clicked");
   $.ajax({
     method: "post",
-    url: "http://127.0.0.1:8000/cart/add-to-cart/",
+    url: "/cart/add-to-cart/",
     data: {
       id: id,
       title: title,

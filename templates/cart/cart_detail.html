@@ -3,7 +3,7 @@
 {%block carousel%} {%endblock%}
 {% block content%}
 
-<!-- <h1>{{request.user}}</h1> -->
+
 <div class="d-flex justify-content-center text-primary" id="spin">
     <div class="spinner-border" role="status" >
       <span class="visually-hidden">Loading...</span>
@@ -13,14 +13,15 @@
     </div>
   </div>
 {%if products%}
-<div class="container">
-    <h1>Cart Details</h1>
-    <div class="row" id="what">
-        <div class="col-md-8">
+<div class="container card shadow p-4" style="background-color: #edf2fb;">
+    <h1 class="text-center">Cart Details</h1>
+    <hr/>
+    <div class="row" id="what" >
+        <div class="col-md-8" >
             {%for p in products%}
             <div class="row" data-cart-container="{{p.product.id}}">
-                <div class="col">
-                    <div class="row card mt-2 mb-2 shadow">
+                <div class="col" >
+                    <div class="row card mt-2 mb-2 shadow" style="background-color: #e0fbfc;">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="row">
@@ -30,9 +31,6 @@
                                             {%else%}
                                                 <img src="{{p.product.show_img}}" class="img-thumbnail mb-3" alt="..." style="height: 100%; width: 100%; object-fit: contain" />
                                         {%endif%}
-                                                <!-- <p>{{key}}: {{value}}</p> -->
-                                          
-                                        
                                     </div>
                                 </div>
 
@@ -62,16 +60,15 @@
                             <div class="col">
                                 <div class="row">
                                     <div class="col-12">
-                                        <h1>{{p.product.title}}</h1>
+                                        <h1>{{p.product.title|title}}</h1>
+                                        <hr/>
                                     </div>
                                     <div class="col">
                                         
                                         {%if p.extra_info%}
                                             {% for key,value in p.extra_info.items%}
-                                                <p>{{key}}: {{value}}</p>
+                                                <h4>{{key}}: {{value}}</h4>
                                             {%endfor%}
-                                        <!-- <h1>{{p.extra_info}}</h1> -->
-
                                         {%endif%}
                                         
                                     </div>
@@ -79,7 +76,7 @@
                                 <div class="row">
                                     <div class="row d-flex align-items-end">
                                         <div class="col">
-                                            <h1 class="{{p.product.id}}">Rs{{p.subtotal | floatformat:"0"}}</h1>
+                                            <h4 class="{{p.product.id}}">Rs{{p.subtotal | floatformat:"0"}}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +106,7 @@
                             <div class="col">
                                 <div class="row">
                                     <div class="col">
-                                        <img src="file:///C:/Users/Bibek/Desktop/e-com/mysite/static/images/empty%20_cart.png" alt="">
+                                        <img src="" alt="">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -130,9 +127,9 @@
         </div>
         {%if cart_session.show_quantity != 0 %}
         <div class="col-md-4" id="cart_detail">
-            <div class="d-flex p-3 card shadow">
+            <div class="d-flex p-3 card shadow" style="background-color: #e0fbfc;">
                 <div>
-                    <h1>Product Details</h1>
+                    <h1 class="text-muted">Product Details</h1>
                     <hr />
                 </div>
                 <div class="d-flex justify-content-between">
@@ -164,21 +161,154 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <a href="{% url 'cart:buy'%}"><button class="btn btn-danger">Place Order</button></a>
+                    <a href="{% url 'cart:buy'%}"><button class="btn btn-primary">Place Order</button></a>
                 </div>
             </div>
         </div>
         {%endif%}
     </div>
 </div>
-<script src="{%static 'js/cart_detail.js'%}"></script>
+
 <script>
     $("#spin").attr('class','d-flex justify-content-center text-primary');
 </script>
 <script>
     $(window).on("load", function () {
-        //console.log("window loaded");
+     
         $("#spin").attr('class','d-flex justify-content-center text-primary d-none');
     });
+</script>
+<script>
+    
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+           
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie("csrftoken");
+function addToCart(obj, id, price, title) {
+ 
+}
+
+function handleClick(obj, id, title, price) {
+
+    let name = obj.getAttribute("data-btn");
+
+    if (name == "add_btn") {
+        let value = parseInt($(`#${id}`).html());
+        let finalVal = value + 1
+        if (parseInt(finalVal) <= 3) {
+ 
+            quantity = finalVal
+            $.ajax({
+                method: "post",
+                url: "{% url 'cart:addToCart'%}",
+                data: {
+                    id: id,
+                    title: title,
+                    price: price,
+                    quantity: quantity,
+                    csrfmiddlewaretoken: csrftoken,
+                },
+                success: (response) => {
+                    
+                    $(`.${id}`).html(`Rs${parseInt(response.data)}`);
+                    $("#s_total").html(`Rs ${response.s_price.toFixed(2)}`);
+                    $("#price").html(`Price(${response.length} items)`);
+                    $("#total_charge").html(
+                        `Rs ${response.total_charge.toFixed(2)}`
+                    );
+                    $("shipping_charge").html(
+                        `Rs ${response.shipping_charge.toFixed(2)}`
+                    );
+                    $('#cart-quan').html(response.length)
+                    $(`#${id}`).html(response.quantity);
+
+                },
+                error: (response) => {
+                    
+                },
+            });
+        }
+
+    }
+
+    if (name == "dec_btn") {
+
+        let value = parseInt($(`#${id}`).html());
+        
+        let finalVal = value - 1;
+        if (parseInt(finalVal) >= 1) {
+            quantity = finalVal;
+            $.ajax({
+                method: "post",
+                url: "{% url 'cart:addToCart'%}",
+                data: {
+                    id: id,
+                    title: title,
+                    price: price,
+                    quantity: quantity,
+                    csrfmiddlewaretoken: csrftoken,
+                },
+                success: (response) => {
+                    $(`.${id}`).html(`Rs${parseInt(response.data)}`);
+                    $("#s_total").html(`Rs ${response.s_price.toFixed(2)}`);
+                    $("#price").html(`Price(${response.length} items)`);
+                    $("#total_charge").html(
+                        `Rs ${response.total_charge.toFixed(2)}`
+                    );
+                    $("shipping_charge").html(
+                        `Rs ${response.shipping_charge.toFixed(2)}`
+                    );
+                    $('#cart-quan').html(response.length)
+                    $(`#${id}`).html(response.quantity);
+                },
+                error: (error) => {
+                    
+                },
+            });
+        }
+       
+    }
+}
+
+function removeCart(id) {
+    $.ajax({
+        method: "post",
+        url: "{% url 'cart:reomveCart'%}",
+        data: {
+            pk: id,
+            csrfmiddlewaretoken: csrftoken,
+        },
+
+        success: (response) => {
+           
+            obj = $(`[data-cart-container=${response.id}]`);
+            obj.remove();
+            $("#s_total").html(`Rs ${response.s_price.toFixed(2)}`);
+            $("#price").html(`Price(${response.length} items)`);
+            $("#total_charge").html(`Rs ${response.total_charge.toFixed(2)}`);
+            $("shipping_charge").html(
+                `Rs ${response.shipping_charge.toFixed(2)}`
+            );
+            $('#cart-quan').html(response.length)
+
+            if (parseInt(response.length) == 0) {
+               
+                $("#cart_detail").remove();
+            }
+        },
+    });
+}
 </script>
 {%endblock content%}

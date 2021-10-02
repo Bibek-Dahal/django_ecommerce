@@ -4,18 +4,19 @@
 {% block content%}
 
 {%if orders%}
-    <div class="container">
+    <div class="container"  style="background-color: #edf2fb;">
         <h1 class="text-center mb-3">My orders</h1>
         <hr/>
         {%for o in orders%}
         <div class="row mb-5 mt-4 justify-content-center" >
-            <div class="col-4 card p-0" style=" width: 300px;">
-                <img src="{{o.show_img}}" class="img-fluid"  alt="" style='height: 100%; width: 100%; object-fit: contain'>
+            <div class="col-4 card shadow p-0" style=" width: 300px;">
+                <img src="{{o.show_img}}" class="img-fluid"  alt="" style='height: 400px; width: 100%; object-fit: contain'>
             </div>
-            <div class="col-6 p-0 card p-3" style="width: 300px;">
+            <div class="col-6 p-0 card shadow p-3" style="width: 300px; background-color: #e0fbfc;">
                 <div class="row">
                     <div class="col-12">
-                        <h3 class="text-info">{{o.product.title}}</h3>
+                        <h3 class="text-info text-muted">{{o.product.title|title}}</h3>
+                        <hr/>
                         
                     </div>
                     <div class="col-12">
@@ -27,7 +28,7 @@
                             <h3>quantity: {{o.quantity}}</h3>
                             <h3>price: {{o.price}}</h3>
                                 {%if o.variation%}
-                                    <h3>variation:{%for key,value in o.variation.items%}{{key}} = {{value}} {%endfor%}</h3>
+                                    <h3>{%for key,value in o.variation.items%}{{key}} = {{value}} {%endfor%}</h3>
                                 {%endif%}
                                 
                             
@@ -39,7 +40,7 @@
                                 <h3>quantity: {{o.quantity}}</h3>
                                 <h3>price: {{o.price}}</h3>
                                 {%if o.variation%}
-                                    <h3>variation:{%for key,value in o.variation.items%}{{key}} = {{value}} {%endfor%}</h3>
+                                    <h3>{%for key,value in o.variation.items%}{{key}} = {{value}} {%endfor%}</h3>
                                 {%endif%}
                                 <h3></h3>
                                 
@@ -52,7 +53,7 @@
                                 <h3>quantity: {{o.quantity}}</h3>
                                 <h3>price: {{o.price}}</h3>
                                 {%if o.variation%}
-                                    <h3>variation:{%for key,value in o.variation.items%}{{key}} = {{value}} {%endfor%}</h3>
+                                    <h3>{%for key,value in o.variation.items%}{{key}} = {{value}} {%endfor%}</h3>
                                 {%endif%}
 
                             {%elif o.status == 'Delivered'%}
@@ -63,7 +64,7 @@
                                 <h3>quantity: {{o.quantity}}</h3>
                                 <h3>price: {{o.price}}</h3>
                                 {%if o.variation%}
-                                    <h3>variation:{%for key,value in o.variation.items%}{{key}} = {{value}} {%endfor%}</h3>
+                                    <h3>{%for key,value in o.variation.items%}{{key}} = {{value}} {%endfor%}</h3>
                                 {%endif%}
                                 
                             {%elif o.status == None%}
@@ -71,7 +72,7 @@
                                 <h3>quantity: {{o.quantity}}</h3>
                                 <h3>price: {{o.price}}</h3>
                                 {%if o.variation%}
-                                    <h3>variation:{%for key,value in o.variation.items%}{{key}} = {{value}} {%endfor%}</h3>
+                                    <h3>{%for key,value in o.variation.items%}{{key}} = {{value}} {%endfor%}</h3>
                                 {%endif%}
                                 
                         {%endif%}
