@@ -167,6 +167,7 @@ ESEWA_SECRET_KEY = os.environ.get('ESEWA_SECRET_KEY',True)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_URL = '/static/'
 STATICFILES_DIRS =[
 os.path.join(BASE_DIR, 'static')
