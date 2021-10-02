@@ -149,28 +149,28 @@ EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER',True)
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD',True)
 LOGIN_REDIRECT_URL = 'store:home'
 LOGOUT_REDIRECT_URL = 'store:home'
 
 ALLOWED_HOSTS = ['bibekecom.herokuapp.com','127.0.0.1']
 
 cloudinary.config( 
-  cloud_name = os.environ['cloud_name'], 
-  api_key = os.environ['api_key'], 
-  api_secret =  os.environ['api_secret']
+  cloud_name = os.environ.get('cloud_name',True), 
+  api_key = os.environ.get('api_key',True), 
+  api_secret =  os.environ.get('api_secret',True)
 )
 
-KHALTHI_SECRET_KEY = os.environ['KHALTHI_SECRET_KEY']
-ESEWA_SECRET_KEY = os.environ['ESEWA_SECRET_KEY']
+KHALTHI_SECRET_KEY = os.environ.get('KHALTHI_SECRET_KEY',True)
+ESEWA_SECRET_KEY = os.environ.get('ESEWA_SECRET_KEY',True)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = '/static/'
-STATICFILES_DIRS =[
-os.path.join(BASE_DIR, 'static')
-]
+# STATICFILES_DIRS =[
+# os.path.join(BASE_DIR, 'static')
+# ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT  = BASE_DIR / 'static'
 
