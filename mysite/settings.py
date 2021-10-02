@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': os.environ.get('NAME',True),
         'USER': os.environ.get('USER',True),
         'PASSWORD':os.environ.get('PASSWORD',True),
-        'HOST': 'bibekecom.herokuapp.com',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }

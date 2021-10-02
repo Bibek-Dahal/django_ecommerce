@@ -32,7 +32,6 @@ class Order(models.Model):
         ordering = ['-created_at']
 
     def show_img(self):
-        print('show img called')
         try:
             product_obj = Product.objects.get(id = self.product.id)
             if self.variation:
