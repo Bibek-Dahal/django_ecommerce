@@ -1,0 +1,19 @@
+input[type=text] {
+    border: 1px solid #004e98;
+    border-radius: 4px;
+}
+
+input[type=email] {
+    border: 1px solid #004e98;
+    border-radius: 4px;
+}
+
+input[type=password] {
+    border: 1px solid #004e98;
+    
+}
+
+.form-control:focus {
+    box-shadow: none;
+    
+} 
