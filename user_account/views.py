@@ -143,6 +143,7 @@ class CustomerRegView(CreateView):
         obj.save()
         return redirect('account:profile')
 
+@method_decorator(login_required(login_url='/account/signin/'), name='dispatch')
 class ProfileView(TemplateView):
     template_name = 'customer/profile.html'
     def get_context_data(self,*args,**kwargs):
@@ -151,6 +152,7 @@ class ProfileView(TemplateView):
         context['form'] = CustomerRegForm()
         return context
 
+@method_decorator(login_required(login_url='/account/signin/'), name='dispatch')
 class ProfileEditView(View):
     def get(self,request,*args,**kwargs):
         #(kwargs)

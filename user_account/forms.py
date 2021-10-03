@@ -54,15 +54,15 @@ class CustomUserCreationForm(UserCreationForm):
         check_username = re.findall("[a-zA-Z]",cleaned_data.get('username'))
         if not check_username:
             raise ValidationError('Enter valid username')
-        print(username)
+        # print(username)
         return username
 
     def clean_password2(self):
         super().clean()
         pwd = self.cleaned_data.get('password1')
-        print()
-        print('pwd',pwd)
-        print('Lem',len(pwd))
+        # print()
+        # print('pwd',pwd)
+        # print('Lem',len(pwd))
         if len(pwd) >= 8:
             reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
             pat = re.compile(reg)
@@ -184,10 +184,10 @@ class SetPWDForm(SetPasswordForm):
 
     def clean_new_password2(self) -> str:
         new_pwd = super().clean_new_password2()
-        print('inside new models  ffafjf ')
+        # print('inside new models  ffafjf ')
         # new_pwd = self.cleaned_data.get('password2')
-        print('new_pwd',new_pwd)
-        print()
+        # print('new_pwd',new_pwd)
+        # print()
         reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
         pat = re.compile(reg)
         mat = re.search(pat, new_pwd)
@@ -231,8 +231,8 @@ class CustomerRegForm(forms.ModelForm):
     def clean_phone_number(self):
         cleaned_data = super().clean()
         ph_num = cleaned_data.get('phone_number')
-        print(ph_num)
-        print(ph_num.isnumeric())
+        # print(ph_num)
+        # print(ph_num.isnumeric())
         if not len(ph_num)<10:
             if not ph_num.isnumeric():
                 raise ValidationError('Enter valid phone number')

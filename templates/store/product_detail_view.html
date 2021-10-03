@@ -48,7 +48,7 @@
                     <form class="was-validated" id="form" novalidate>
                         {%for option in prod.productvariationsoptions_set.all%}
                             <h4 class="d-inline p-3">
-                                {{option.name | title}}: 
+                                {{option.name|title}}: 
                             </h4>
                             <h4 class="d-inline p-3">
                                 {%for v in option.productvariationvalue_set.all%}

@@ -11,15 +11,6 @@ class Cart():
     def add_to_cart(self,request,**kwargs):
         #('#################&&&&&&&')
         cart_products = request.session.get('cart')
-        # #('cart products^^^^^^',cart_products)
-        # #(json.loads(kwargs['extra_info']))
-        # if cart_products is not None:
-        # def hasExtraInfo():
-        #     try:
-        #         return json.loads(kwargs['extra_info'])
-        #     except:
-        #         #('hey except executed')
-        #         return None
         
         if cart_products is not None:
             img = None

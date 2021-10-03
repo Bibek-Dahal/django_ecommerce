@@ -25,7 +25,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="row">
-                                    <div class="col" style="height: 200px">
+                                    <div class="col-sm-11 col p-2" style="height: 200px">
                                         {%if p.img%}
                                             <img src="{{p.img.image.url}}" class="img-thumbnail mb-3" alt="..." style="height: 100%; width: 100%; object-fit: contain" />   
                                             {%else%}
@@ -38,7 +38,7 @@
                                     <div class="col-sm-2 col-md-4 col-lg-4 col-4">
                                         <button value="add"
                                             onclick="handleClick(this,'{{p.product.id}}','{{p.product.title}}','{{p.product.discount_price}}')"
-                                            class="shadow btn btn-danger add-btn btn-sm" data-btn="add_btn">
+                                            class="btn btn-danger add-btn btn-sm" data-btn="add_btn">
                                             Add
                                         </button>
                                     </div>
@@ -51,7 +51,7 @@
                                     <div class="col-sm-2 col-md-4 col-lg-4 col-4">
                                         <button value="ded" data-btn="dec_btn" 
                                             onclick="handleClick(this,'{{p.product.id}}','{{p.product.title}}','{{p.product.discount_price}}')"
-                                            class="shadow btn btn-danger btn-sm">
+                                            class="btn btn-danger btn-sm">
                                             Ded
                                         </button>
                                     </div>

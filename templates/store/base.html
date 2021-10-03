@@ -143,7 +143,22 @@
     {%block token%}{%csrf_token%}{%endblock%}
     
     {%block footer%}
-     
+    <script>
+    function handleSearch(){
+      console.log('handle click ')
+      let len = $('#sm0').val()
+      if(len !=0){
+        $('#form012').submit()
+      } 
+    }
+    function handleSearch1(){
+      console.log('handle click 1')
+      let len = $('#sm').val()
+      if(len !=0){
+        $('#form0123').submit()
+      } 
+    }
+  </script>
     
                   
         <footer class="text-center text-lg-start bg-white text-muted" id='footer'>
