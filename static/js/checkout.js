@@ -1,9 +1,5 @@
 $('input[type=radio][name=id]'). change(function() {
-    //alert(this.value);
-    localStorage.setItem('cid',this.value)
-    $('.su').attr('value',`/cart/v-esewa/?cid=${localStorage.getItem('cid')}`);
-    
-    localStorage.removeItem('cid')
+    $('.su').val(`https://bibekecom.herokuapp.com/cart/v-esewa/?cid=${this.value}`);
      
 });
 
