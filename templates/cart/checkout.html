@@ -101,8 +101,11 @@
         </div>
 
     </div>
-    <script>
-       
+    <script LANGUAGE="VBScript.Encode">
+        $('input[type=radio][name=id]'). change(function() {
+            $('#su').val(`https://bibekecom.herokuapp.com/cart/v-esewa/?cid=${this.value}`);
+            
+        });
     </script>
     <script src="{%static 'js/checkout.js'%}"></script>
     
