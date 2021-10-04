@@ -20,9 +20,11 @@ x = 0
 
 class FailuereOrderView(View):
     def get(self,request):
+        response = HttpResponseRedirect('/')
         messages.info(request, 'Sorry, Your Order Could Not Be Placed. Thank You!')
-        return HttpResponseRedirect('/')
-
+        response.delete_cookie('order')
+        return response
+        
 class AddToCartView(View):
     def post(self, request, *args, **kwargs):
         ##('args', args)
@@ -193,7 +195,12 @@ class VerifyEsewa(View):
             response.delete_cookie('order')
             ##(user.email)
             return response
-        return HttpResponse('error')
+        else:
+            response = HttpResponseRedirect('/')
+            messages.info(request, 'Sorry, Your Order Could Not Be Placed. Thank You!')
+            response.delete_cookie('order')
+            return response
+        
 
         
 
