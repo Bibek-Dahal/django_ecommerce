@@ -1,5 +1,5 @@
 $('input[type=radio][name=id]'). change(function() {
-    $('.su').val(`https://bibekecom.herokuapp.com/cart/v-esewa/?cid=${this.value}`);
+    $('#su').val(`https://bibekecom.herokuapp.com/cart/v-esewa/?cid=${this.value}`);
      
 });
 
