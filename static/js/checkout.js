@@ -1,6 +1,6 @@
 $('input[type=radio][name=id]'). change(function() {
     $('#su').val(`https://bibekecom.herokuapp.com/cart/v-esewa/?cid=${this.value}`);
-     
+    console.log($('#su').val())
 });
 
  /*let hello*/
