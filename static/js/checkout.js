@@ -1,1 +1,84 @@
-const _0x17ea73=_0x31f3;(function(_0x1b8211,_0x2ea8b9){const _0x3b6be8=_0x31f3,_0x47e959=_0x1b8211();while(!![]){try{const _0x3b8618=parseInt(_0x3b6be8(0x13a))/0x1+parseInt(_0x3b6be8(0x14b))/0x2*(parseInt(_0x3b6be8(0x154))/0x3)+-parseInt(_0x3b6be8(0x14a))/0x4*(-parseInt(_0x3b6be8(0x15a))/0x5)+-parseInt(_0x3b6be8(0x142))/0x6*(parseInt(_0x3b6be8(0x141))/0x7)+-parseInt(_0x3b6be8(0x15d))/0x8*(-parseInt(_0x3b6be8(0x145))/0x9)+-parseInt(_0x3b6be8(0x13d))/0xa+parseInt(_0x3b6be8(0x140))/0xb*(-parseInt(_0x3b6be8(0x14d))/0xc);if(_0x3b8618===_0x2ea8b9)break;else _0x47e959['push'](_0x47e959['shift']());}catch(_0x15a14f){_0x47e959['push'](_0x47e959['shift']());}}}(_0x4b2b,0xb67cb));let uuid=$('#u')[_0x17ea73(0x13e)]();function _0x31f3(_0x364053,_0x38a7a6){const _0x4b2b5d=_0x4b2b();return _0x31f3=function(_0x31f338,_0x1122cd){_0x31f338=_0x31f338-0x138;let _0x4fdacf=_0x4b2b5d[_0x31f338];return _0x4fdacf;},_0x31f3(_0x364053,_0x38a7a6);}function getCookie(_0x485f5f){const _0x2420a2=_0x17ea73;let _0x18b0e2=null;if(document[_0x2420a2(0x155)]&&''!==document[_0x2420a2(0x155)]){const _0x435f7e=document['cookie']['split'](';');for(let _0x118522=0x0;_0x118522<_0x435f7e[_0x2420a2(0x159)];_0x118522++){const _0x238a77=_0x435f7e[_0x118522][_0x2420a2(0x151)]();if(_0x238a77['substring'](0x0,_0x485f5f[_0x2420a2(0x159)]+0x1)===_0x485f5f+'='){_0x18b0e2=decodeURIComponent(_0x238a77[_0x2420a2(0x144)](_0x485f5f[_0x2420a2(0x159)]+0x1));break;}}}return _0x18b0e2;}const csrftoken=getCookie(_0x17ea73(0x14c));var config={'publicKey':_0x17ea73(0x150),'productIdentity':_0x17ea73(0x147),'productName':_0x17ea73(0x153),'productUrl':'http://gameofthrones.wikia.com/wiki/Dragons','paymentPreference':['KHALTI','EBANKING','MOBILE_BANKING','CONNECT_IPS','SCT'],'eventHandler':{'onSuccess'(_0x2a8bf6){const _0x58cb69=_0x17ea73;$(_0x58cb69(0x13c))[_0x58cb69(0x146)]('d-none'),$(_0x58cb69(0x148))[_0x58cb69(0x14f)](_0x58cb69(0x14e),'d-flex\x20justify-content-center'),$[_0x58cb69(0x15b)]({'type':_0x58cb69(0x15c),'url':_0x58cb69(0x157),'data':{'token':_0x2a8bf6['token'],'amount':_0x2a8bf6['amount'],'csrfmiddlewaretoken':csrftoken},'success':_0x22db6f=>{const _0x2b7cc0=_0x58cb69;'success'==_0x22db6f[_0x2b7cc0(0x152)]?$(_0x2b7cc0(0x138))['submit']():window[_0x2b7cc0(0x13f)][_0x2b7cc0(0x156)]=_0x2b7cc0(0x149);},'error':_0x4d6ad1=>{}});},'onError'(_0x4ec11e){},'onClose'(){}}},checkout=new KhaltiCheckout(config),btn=document[_0x17ea73(0x13b)](_0x17ea73(0x143));btn[_0x17ea73(0x139)]=function(){const _0x3ff121=_0x17ea73;checkout[_0x3ff121(0x158)]({'amount':0x3e8});};function _0x4b2b(){const _0x32e088=['3075390BhGIZy','addClass','{{uuid}}','#spin','/cart/transaction-failed','4CLVJIU','239434vvchrP','csrftoken','1100364PyXswQ','class','attr','test_public_key_2cb744b91026476980e513bd0c377ef2','trim','msg','Dragon','33hqsoqA','cookie','href','/cart/verify/','show','length','1129780ZOunvp','ajax','post','16tDBsjS','#payment_form','onclick','476338LkkMmJ','getElementById','.container','6772610dqDYbV','val','location','11qETucl','172984QPQfru','288GSCGYW','payment-button','substring'];_0x4b2b=function(){return _0x32e088;};return _0x4b2b();}
+
+
+
+let uuid = $('#u').val();
+function getCookie(name) {
+let cookieValue = null;
+if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    // Does this cookie string begin with the name we want?
+    if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+    }
+    }
+}
+return cookieValue;
+}
+const csrftoken = getCookie("csrftoken");
+var config = {
+//replace the publicKey with yours
+publicKey: "test_public_key_2cb744b91026476980e513bd0c377ef2",
+productIdentity: '{{uuid}}',
+productName: "Dragon",
+productUrl: "http://gameofthrones.wikia.com/wiki/Dragons",
+paymentPreference: [
+    "KHALTI",
+    "EBANKING",
+    "MOBILE_BANKING",
+    "CONNECT_IPS",
+    "SCT",
+],
+eventHandler: {
+    
+    onSuccess(payload) {
+    $(".container").addClass("d-none");
+    $("#spin").attr("class", "d-flex justify-content-center");
+    $.ajax({
+        type:'post',
+        url:'/cart/verify/',
+        data:{token:payload.token,amount:payload.amount,csrfmiddlewaretoken: csrftoken},
+        success:(response)=>{
+            ///.log(response)
+            ///.log(response.msg)
+            if(response.msg == "success"){
+                ///.log('hello')
+                $('#payment_form').submit();
+            }
+            else{
+                window.location.href = '/cart/transaction-failed'
+            }
+            
+        },
+        error:(error)=>{
+            ///.log(error)
+
+        }
+    });
+    
+
+    },
+    onError(error) {
+    ///.log(error);
+    },
+    onClose() {
+    ///.log("widget is closing");
+    },
+},
+};
+
+var checkout = new KhaltiCheckout(config);
+var btn = document.getElementById("payment-button");
+btn.onclick = function () {
+// minimum transaction amount must be 10, i.e 1000 in paisa.
+if ("{{request.user}}" === "AnonymousUser") {
+    window.location.href = "{% url 'account:signup'%}";
+} else {
+    checkout.show({ amount: 1000 });
+}
+};
+
+               
+        
