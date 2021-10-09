@@ -56,7 +56,7 @@ class Cart():
                 # #(sum)
             return sum
                 
-        return sum
+        return 0
 
     def show_items(self):
         quantity = []
