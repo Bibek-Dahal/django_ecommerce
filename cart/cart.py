@@ -42,6 +42,7 @@ class Cart():
 
             request.session['cart'] = {kwargs['id']:{'price':kwargs['price'],'quantity':kwargs['quantity'],'extra_info':extra_info,'img':img}}
             request.session['shipping_charge'] = 300
+            request.session.modified = True
             
 
 
