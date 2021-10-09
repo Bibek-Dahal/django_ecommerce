@@ -20,7 +20,7 @@ def Home(request):
    
     x=ProductInventory.objects.filter(sku = '12888blacknoteredmi')
     
-    return render(request,"store/home.html",{'query_set':query_set})
+    return render(request,"store/home.html",{'query_set':query_set,'session':request.session.get('cart')})
     
 class ProductSearchView(View):
     def get(self,request,*args,**kwargs):
