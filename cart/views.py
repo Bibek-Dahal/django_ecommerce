@@ -86,7 +86,7 @@ class RemoveCartView(View):
         items.pop(request.POST.get('pk'))
         request.session['cart'] = items
         request.session.modefied = True
-        request.session.clear_expired()
+        # request.session.clear_expired()
 
         return JsonResponse({'id':pk, 's_price': cart_obj.subTotal(), 'length': cart_obj.show_quantity(), 'total_charge': cart_obj.total(), 'shipping_charge': cart_obj.showShippingCharge()})
 
