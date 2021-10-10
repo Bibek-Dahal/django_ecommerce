@@ -28,6 +28,7 @@ class Cart():
             else:
                 #('hello')
                 request.session['cart'][kwargs['id']]['quantity'] = kwargs['quantity']
+                request.session['cart'] = request.session.get('cart')
                 request.session.modified = True
                 return JsonResponse({'msg':'successfully updated'})
         else:
