@@ -138,8 +138,6 @@ class BuyProducts(View):
     def get(self, request):
         cart_obj = Cart(request)
         customer = Customer.objects.filter(customer=request.user)
-        
-
         if customer:
             if request.session.get('cart'):
                 order = self.request.COOKIES.get('order')
@@ -201,9 +199,6 @@ class VerifyEsewa(View):
             response.delete_cookie('order')
             return response
         
-
-        
-
 @method_decorator(login_required(login_url='/account/signin/'), name='dispatch')
 class OrderView(View):
     def post(self, request):

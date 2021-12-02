@@ -28,8 +28,6 @@ class SignInView(LoginView):
     authentication_form = CustomUserLoginForm
     template_name = 'account/registration/login.html'
         
-    
-
 class PwdResetView(PasswordResetView):
     form_class = PWDResetForm
     email_template_name = 'account/registration/password_reset_email.html'
@@ -53,8 +51,6 @@ class PwdChangeFormView(PasswordChangeView):
     form_class = PwdChangeForm
     success_url =reverse_lazy('store:home')
     template_name = 'account/user/password_change_form.html'
-
-
 
 def signup(request):
     if request.user.is_authenticated:

@@ -54,9 +54,7 @@ class CatagoryView(View):
     template_name = 'store/catagory.html'
     
     def get(self,request,*args,**kwargs):
-        
         cat_name = get_object_or_404(Catagory,slug=kwargs['slug'])
-
         paginator = Paginator(cat_name.cat_prods().order_by('id'),20)
         page_obj = paginator.get_page(request.GET.get('page'))
         return render(request,'store/catagory.html',{'page_obj':page_obj,'subcatagory':cat_name.subcatagory_set.all()})
