@@ -79,18 +79,18 @@
                                 <hr/>
                             </div>
                             <div class="d-sm-flex justify-content-between">
-                                <div><h4 id="price">Price({{cart_session.show_quantity}} items)</h4></div>
-                                <div><h4 id="s_total">Rs.{{cart_session.subTotal | floatformat:"2"}}</h4></div>
+                                <div><h4 id="price">Price({{cart.show_quantity}} items)</h4></div>
+                                <div><h4 id="s_total">Rs.{{cart.subTotal | floatformat:"2"}}</h4></div>
                             </div>
                             <div class="d-sm-flex justify-content-between">
                                 <div><h4>Delivary Charge</h4></div>
-                                <div><h4 id="shipping_charge">Rs.{{cart_session.showShippingCharge | floatformat:"2"}}</h4></div>
+                                <div><h4 id="shipping_charge">Rs.{{cart.showShippingCharge | floatformat:"2"}}</h4></div>
                 
                             </div>
                             <hr>
                             <div class="d-sm-flex justify-content-between">
                                 <div><h4>Total Charge</h4></div>
-                                <div><h4 id="total_charge">Rs.{{cart_session.total | floatformat:"2"}}</h4></div>
+                                <div><h4 id="total_charge">Rs.{{cart.total | floatformat:"2"}}</h4></div>
                             </div>
 
                         </div>
