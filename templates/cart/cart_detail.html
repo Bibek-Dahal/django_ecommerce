@@ -177,136 +177,123 @@
     });
 </script>
 <script>
-    
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-        const cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-           
-            if (cookie.substring(0, name.length + 1) === name + "=") {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-const csrftoken = getCookie("csrftoken");
-function addToCart(obj, id, price, title) {
- 
-}
-
-function handleClick(obj, id, title, price) {
-
-    let name = obj.getAttribute("data-btn");
-
-    if (name == "add_btn") {
-        let value = parseInt($(`#${id}`).html());
-        let finalVal = value + 1
-        if (parseInt(finalVal) <= 3) {
- 
-            quantity = finalVal
-            $.ajax({
-                method: "post",
-                url: "{% url 'cart:addToCart'%}",
-                data: {
-                    id: id,
-                    title: title,
-                    price: price,
-                    quantity: quantity,
-                    csrfmiddlewaretoken: csrftoken,
-                },
-                success: (response) => {
-                    
-                    $(`.${id}`).html(`Rs${parseInt(response.data)}`);
-                    $("#s_total").html(`Rs ${response.s_price.toFixed(2)}`);
-                    $("#price").html(`Price(${response.length} items)`);
-                    $("#total_charge").html(
-                        `Rs ${response.total_charge.toFixed(2)}`
-                    );
-                    $("shipping_charge").html(
-                        `Rs ${response.shipping_charge.toFixed(2)}`
-                    );
-                    $('#cart-quan').html(response.length)
-                    $(`#${id}`).html(response.quantity);
-
-                },
-                error: (response) => {
-                    
-                },
-            });
-        }
-
-    }
-
-    if (name == "dec_btn") {
-
-        let value = parseInt($(`#${id}`).html());
-        
-        let finalVal = value - 1;
-        if (parseInt(finalVal) >= 1) {
-            quantity = finalVal;
-            $.ajax({
-                method: "post",
-                url: "{% url 'cart:addToCart'%}",
-                data: {
-                    id: id,
-                    title: title,
-                    price: price,
-                    quantity: quantity,
-                    csrfmiddlewaretoken: csrftoken,
-                },
-                success: (response) => {
-                    $(`.${id}`).html(`Rs${parseInt(response.data)}`);
-                    $("#s_total").html(`Rs ${response.s_price.toFixed(2)}`);
-                    $("#price").html(`Price(${response.length} items)`);
-                    $("#total_charge").html(
-                        `Rs ${response.total_charge.toFixed(2)}`
-                    );
-                    $("shipping_charge").html(
-                        `Rs ${response.shipping_charge.toFixed(2)}`
-                    );
-                    $('#cart-quan').html(response.length)
-                    $(`#${id}`).html(response.quantity);
-                },
-                error: (error) => {
-                    
-                },
-            });
-        }
-       
-    }
-}
-
-function removeCart(id) {
-    $.ajax({
-        method: "post",
-        url: "{% url 'cart:reomveCart'%}",
-        data: {
-            pk: id,
-            csrfmiddlewaretoken: csrftoken,
-        },
-
-        success: (response) => {
-           
-            obj = $(`[data-cart-container=${response.id}]`);
-            obj.remove();
-            $("#s_total").html(`Rs ${response.s_price.toFixed(2)}`);
-            $("#price").html(`Price(${response.length} items)`);
-            $("#total_charge").html(`Rs ${response.total_charge.toFixed(2)}`);
-            $("shipping_charge").html(
-                `Rs ${response.shipping_charge.toFixed(2)}`
-            );
-            $('#cart-quan').html(response.length)
-
-            if (parseInt(response.length) == 0) {
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
                
-                $("#cart_detail").remove();
+                if (cookie.substring(0, name.length + 1) === name + "=") {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
             }
-        },
-    });
-}
-</script>
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie("csrftoken");
+    function addToCart(obj, id, price, title) {
+     
+    }
+    function handleClick(obj, id, title, price) {
+        let name = obj.getAttribute("data-btn");
+        if (name == "add_btn") {
+            let value = parseInt($(`#${id}`).html());
+            let finalVal = value + 1
+            if (parseInt(finalVal) <= 3) {
+                quantity = finalVal
+                $.ajax({
+                    method: "post",
+                    url: "{% url 'cart:addToCart'%}",
+                    data: {
+                        id: id,
+                        title: title,
+                        price: price,
+                        quantity: quantity,
+                        csrfmiddlewaretoken: csrftoken,
+                    },
+                    success: (response) => {
+                        $(`.${id}`).html(`Rs${parseInt(response.data)}`);
+                        $("#s_total").html(`Rs ${response.s_price.toFixed(2)}`);
+                        $("#price").html(`Price(${response.length} items)`);
+                        $("#total_charge").html(
+                            `Rs ${response.total_charge.toFixed(2)}`
+                        );
+                        $("shipping_charge").html(
+                            `Rs ${response.shipping_charge.toFixed(2)}`
+                        );
+                        $('#cart-quan').html(response.length)
+                        $(`#${id}`).html(response.quantity);
+    
+                    },
+                    error: (response) => {
+                        
+                    },
+                });
+            }
+        }
+    
+        if (name == "dec_btn") {
+            let value = parseInt($(`#${id}`).html());
+            let finalVal = value - 1;
+            if (parseInt(finalVal) >= 1) {
+                quantity = finalVal;
+                $.ajax({
+                    method: "post",
+                    url: "{% url 'cart:addToCart'%}",
+                    data: {
+                        id: id,
+                        title: title,
+                        price: price,
+                        quantity: quantity,
+                        csrfmiddlewaretoken: csrftoken,
+                    },
+                    success: (response) => {
+                        $(`.${id}`).html(`Rs${parseInt(response.data)}`);
+                        $("#s_total").html(`Rs ${response.s_price.toFixed(2)}`);
+                        $("#price").html(`Price(${response.length} items)`);
+                        $("#total_charge").html(
+                            `Rs ${response.total_charge.toFixed(2)}`
+                        );
+                        $("shipping_charge").html(
+                            `Rs ${response.shipping_charge.toFixed(2)}`
+                        );
+                        $('#cart-quan').html(response.length)
+                        $(`#${id}`).html(response.quantity);
+                    },
+                    error: (error) => {
+                        
+                    },
+                });
+            }
+        }
+    }
+    function removeCart(id) {
+        $.ajax({
+            method: "post",
+            url: "{% url 'cart:reomveCart'%}",
+            data: {
+                pk: id,
+                csrfmiddlewaretoken: csrftoken,
+            },
+            success: (response) => {
+                obj = $(`[data-cart-container=${response.id}]`);
+                obj.remove();
+                $("#s_total").html(`Rs ${response.s_price.toFixed(2)}`);
+                $("#price").html(`Price(${response.length} items)`);
+                $("#total_charge").html(`Rs ${response.total_charge.toFixed(2)}`);
+                $("shipping_charge").html(
+                    `Rs ${response.shipping_charge.toFixed(2)}`
+                );
+                $('#cart-quan').html(response.length)
+    
+                if (parseInt(response.length) == 0) {
+                   
+                    $("#cart_detail").remove();
+                }
+            },
+        });
+    }
+    </script>
 {%endblock content%}

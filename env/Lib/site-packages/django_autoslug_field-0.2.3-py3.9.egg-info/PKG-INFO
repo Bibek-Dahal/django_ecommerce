@@ -1,0 +1,42 @@
+Metadata-Version: 1.0
+Name: django-autoslug-field
+Version: 0.2.3
+Summary: AutoSlugField for Django based on django-extensions AutoSlugField, adds option to track foreignkey/parent field for slug.
+Home-page: http://github.com/aljosa/django-autoslug-field/
+Author: Aljosa Mohorovic
+Author-email: aljosa.mohorovic@gmail.com
+License: MIT License
+Description: ######################
+        django-autoslug-field
+        ######################
+        
+        AutoSlugField for Django based on django-extensions AutoSlugField, adds option to track foreignkey/parent field for slug.
+        
+        Installation
+        =============
+        
+        Install ``django-autoslug-field`` like you would install any other pypi package::
+        
+            pip install django-autoslug-field
+        
+        
+        Configuration and usage
+        ========================
+        
+        * add ``django_autoslug`` to the list of ``INSTALLED_APPS`` in your ``settings.py``
+        * use in ``models.py``::
+        
+            from django_autoslug.fields import AutoSlugField
+        
+            ...
+        
+            class MyModel(models.Model):
+                lang = models.CharField(_('lang'), max_length=50, choices=settings.LANGUAGES)
+                title = models.CharField(_('title'), max_length=255)
+                parent = models.ForeignKey('MyModel', blank=True, null=True)
+                slug = AutoSlugField(populate_from=('title',), recursive='parent', prefix_from=('lang',), unique=True, max_length=255, overwrite=True)
+        
+        * install ``http://pypi.python.org/pypi/pytils`` if you need russian translit support
+        
+Keywords: django autoslug slug field
+Platform: any

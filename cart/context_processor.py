@@ -1,6 +1,6 @@
 from .cart import Cart
 
-def create_session(request):
-    return({'cart_session':Cart(request)})
+def cart_quantity(request):
+    return({'cart': Cart(request)})
 
 

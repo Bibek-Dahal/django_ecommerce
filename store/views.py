@@ -11,6 +11,7 @@ from cart.cart import Cart
 from django.core.paginator import Paginator
 from django.conf import settings
 from django.db.models import Avg
+
 def Home(request):
     query_set = {}
     catagories = Catagory.objects.all()

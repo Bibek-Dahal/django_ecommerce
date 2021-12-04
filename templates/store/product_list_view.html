@@ -45,7 +45,7 @@
               <div class="col-12">
                 <div class="row justify-content-center">
                   <div class="col-12 text-center">
-                    <a href="{%url 'store:product_detail' product.slug %}" target="_blank"><h3>{{product.title | slice:"20"}}...</h3></a>
+                    <a href="{%url 'store:product_detail' product.slug %}"><h3>{{product.title | slice:"20"}}...</h3></a>
                     <h3><small>Rs</small>{{product.discount_price | floatformat:"0"}}</h3>
                     
                   </div>
@@ -84,8 +84,6 @@
               <a class="page-link" href="">Next</a>
             </li>
         {%endif%}
-        
-        
       </ul>
     </nav>
 </div>
