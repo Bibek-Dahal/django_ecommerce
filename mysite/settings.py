@@ -83,9 +83,9 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('NAME',True),
-        'USER': os.environ.get('USER',True),
-        'PASSWORD':os.environ.get('PASSWORD',True),
+        'NAME': os.environ.get('NAME'),
+        'USER': os.environ.get('USER'),
+        'PASSWORD':os.environ.get('PASSWORD'),
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -151,21 +151,21 @@ EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER',True)
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD',True)
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 LOGIN_REDIRECT_URL = 'store:home'
 LOGOUT_REDIRECT_URL = 'store:home'
 
 ALLOWED_HOSTS = ['bibekecom.herokuapp.com','127.0.0.1']
 
 cloudinary.config( 
-  cloud_name = os.environ.get('cloud_name',True), 
-  api_key = os.environ.get('api_key',True), 
-  api_secret =  os.environ.get('api_secret',True)
+  cloud_name = os.environ.get('cloud_name'), 
+  api_key = os.environ.get('api_key'), 
+  api_secret =  os.environ.get('api_secret')
 )
 
-KHALTHI_SECRET_KEY = os.environ.get('KHALTHI_SECRET_KEY',True)
-ESEWA_SECRET_KEY = os.environ.get('ESEWA_SECRET_KEY',True)
+KHALTHI_SECRET_KEY = os.environ.get('KHALTHI_SECRET_KEY')
+ESEWA_SECRET_KEY = os.environ.get('ESEWA_SECRET_KEY')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
